@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>lume — Clareza para o seu dia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--fg:#fff;--mute:#8a8a8a;--line:#2a2a2a;--soft:#3a3a3a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--fg:#fff}}
+:root[data-theme="dark"]{--bg:#000;--fg:#fff}
+html{scroll-behavior:smooth;scroll-padding-top:calc(90px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Inter Tight",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;overflow-x:hidden}
+a{color:inherit}
+#prog{position:fixed;left:0;right:0;top:0;height:2px;background:#fff;transform:scaleX(0);transform-origin:0 50%;z-index:30}
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:32px;padding:calc(16px + env(safe-area-inset-top,0px)) clamp(20px,5vw,72px) 16px;background:rgba(0,0,0,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.brand{display:flex;align-items:center;gap:10px;font-size:26px;font-weight:700;letter-spacing:-.04em;text-decoration:none;margin-right:auto}
+.nav a:not(.brand):not(.btn){color:var(--mute);text-decoration:none;font-weight:600}
+.nav a:not(.brand):not(.btn):hover{color:#fff}
+.btn{display:inline-block;padding:15px 28px;border-radius:999px;border:1.5px solid #fff;background:none;color:#fff;font:600 18px "Inter Tight",system-ui,sans-serif;text-decoration:none;cursor:pointer}
+.nav .btn{padding:9px 20px;font-size:16px}
+.solid{background:#fff;color:#000}
+.btn:focus-visible,.row:focus-visible,.sw:focus-visible,.cl:focus-visible,input:focus-visible{outline:2px solid #fff;outline-offset:3px}
+section{padding:0 clamp(20px,5vw,96px)}
+.ft{min-height:100vh;display:grid;grid-template-columns:1.2fr auto;gap:clamp(32px,6vw,90px);align-items:center;padding-block:120px}
+.ft>div:first-child{min-width:0}
+.ft.r .phone{order:-1}
+.hl{margin:0;font-size:clamp(44px,7vw,120px);line-height:1.02;font-weight:700;letter-spacing:-.05em}
+.hero .hl{font-size:clamp(52px,8.4vw,150px)}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .05em .14em;margin:0 -.05em -.14em}
+.w i{display:inline-block;font-style:normal}
+.m{color:var(--mute)}
+.p{max-width:34ch;color:var(--mute);font-size:clamp(18px,1.6vw,24px);line-height:1.4;margin:28px 0 0}
+.cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
+.cr{position:fixed;left:0;top:0;width:30px;height:30px;margin:-15px 0 0 -15px;border:1.5px solid #fff;border-radius:50%;pointer-events:none;z-index:50}
+/* mockups */
+.phone{width:420px;height:840px;flex:none;border:2px solid #fff;border-radius:64px;padding:76px 28px 28px;box-sizing:border-box;position:relative;overflow:hidden;background:#000}
+.phone::before{content:"";position:absolute;top:18px;left:50%;width:110px;height:28px;margin-left:-55px;border-radius:14px;background:#222}
+.ttl{font-size:34px;font-weight:700;letter-spacing:-.02em;margin-bottom:22px}
+.tr{display:flex;justify-content:space-between;align-items:center}
+.row{display:flex;align-items:center;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);font-size:26px;font-weight:600;cursor:pointer;user-select:none}
+.ic{width:44px;height:44px;border:2px solid #fff;flex:none;transition:background .3s}
+.row.done .ic{background:#fff}
+.row.done .t{color:var(--mute);text-decoration:line-through}
+.row small{display:block;color:var(--mute);font-weight:400;font-size:20px;margin-top:2px}
+.rw{position:relative;width:260px;height:260px;margin:6px auto 22px}
+.tm{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font-size:62px;font-weight:700;letter-spacing:-.04em}
+.tm small{font-size:22px;font-weight:400;color:var(--mute);letter-spacing:0}
+.nt{border:1.5px solid var(--soft);border-radius:24px;padding:22px 24px;margin-bottom:16px;font-size:24px;font-weight:600}
+.fc{position:absolute;left:50%;top:50%;width:260px;height:260px;margin:-130px 0 0 -130px;opacity:0}
+.sw{width:72px;height:40px;border-radius:20px;border:2px solid #fff;background:none;position:relative;cursor:pointer;margin-bottom:22px;padding:0}
+.sw::after{content:"";position:absolute;top:4px;left:4px;width:28px;height:28px;border-radius:50%;background:#fff;transition:transform .3s,background .3s}
+.sw[aria-pressed=true]{background:#fff}
+.sw[aria-pressed=true]::after{transform:translateX(32px);background:#000}
+.bar{height:14px;border-radius:7px;background:#fff;margin:16px 0}
+.g{background:var(--soft)}
+.cur{position:absolute;display:flex;align-items:flex-start;opacity:0;pointer-events:none;left:0;top:0}
+.cur b{width:18px;height:22px;background:#fff;clip-path:polygon(0 0,100% 62%,45% 66%,22% 100%)}
+.cur span{margin:18px 0 0 -2px;background:#fff;color:#000;border-radius:12px;padding:4px 14px;font-size:20px;font-weight:700}
+.cur.r span{background:#000;color:#fff;border:1.5px solid #fff}
+.card{border:1.5px solid var(--soft);border-radius:28px;padding:20px 26px;height:300px;box-sizing:border-box}
+.pb{position:absolute;left:0;right:0;bottom:80px;display:flex;justify-content:center}
+.pub{position:relative;width:300px;height:96px;border:0;border-radius:48px;background:#fff;color:#000;display:grid;place-items:center;font:700 32px "Inter Tight",system-ui,sans-serif;cursor:pointer}
+.pub svg{position:absolute;left:50%;top:50%;margin:-30px 0 0 -30px}
+.big{font-size:84px;font-weight:700;letter-spacing:-.05em;line-height:1}
+.big small{display:block;font-size:24px;font-weight:400;color:var(--mute);letter-spacing:0;margin-top:8px}
+.ch{display:flex;align-items:flex-end;justify-content:space-between;height:340px;margin-top:40px}
+.cl{display:flex;flex-direction:column;align-items:center;gap:12px;font-size:20px;color:var(--mute);cursor:pointer}
+.bc{width:38px;border:2px solid #fff;border-radius:14px;transform-origin:50% 100%;transition:background .25s}
+.bc.on{background:#fff}
+/* final */
+.fin{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding-block:120px 40px}
+.fin .p{margin-inline:auto}
+.fin .cta{justify-content:center}
+.mkbox{position:relative;width:200px;height:200px;margin-bottom:56px}
+.mkbox svg{position:absolute;inset:0;overflow:visible}
+.dot{position:absolute;left:0;top:0;background:#fff}
+.join{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;justify-content:center}
+.join input{width:min(320px,80vw);padding:15px 22px;border-radius:999px;border:1.5px solid var(--soft);background:#000;color:#fff;font:400 18px "Inter Tight",system-ui,sans-serif}
+.msg{min-height:1.4em;margin-top:14px;color:var(--mute)}
+footer{margin-top:auto;padding-top:80px;color:var(--mute);font-size:15px}
+@media (max-width:900px){.ft{grid-template-columns:1fr;min-height:auto;padding-block:84px}.ft.r .phone{order:0}.phone{zoom:.82;margin:0 auto}.nav a:not(.brand):not(.btn){display:none}}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<header class="nav">
+<a class="brand" href="#top"><svg width="30" height="30" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="78" fill="none" stroke="#fff" stroke-width="22"/><circle cx="100" cy="100" r="26" fill="#fff"/></svg>lume</a>
+<a href="#recursos">Recursos</a><a href="#baixar">Começar</a><a class="btn solid mag" href="#baixar">Baixar</a>
+</header>
+<main>
+<section class="ft hero" id="top"><div><h1 class="hl rv" id="h1"></h1><p class="p">O lume reúne mensagens, agenda e tarefas num só lugar, para você focar no que importa. Toque no celular ao lado.</p><div class="cta"><a class="btn solid mag" href="#baixar">Baixar o app</a><a class="btn mag" href="#recursos">Ver como funciona</a></div></div>
+<div class="phone" id="hp"><div class="ttl">Bom dia</div><div class="rw"><svg viewBox="0 0 260 260" width="260" height="260"><circle cx="130" cy="130" r="112" fill="none" stroke="#2a2a2a" stroke-width="10"/><circle class="pr2" cx="130" cy="130" r="112" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-dasharray="704" stroke-dashoffset="469" transform="rotate(-90 130 130)"/></svg><div class="tm cnt">1 de 3<small>tarefas feitas</small></div></div>
+<div class="row done" tabindex="0" role="button"><div class="ic" style="border-radius:50%"></div><div class="t">Responder equipe</div></div><div class="row" tabindex="0" role="button"><div class="ic" style="border-radius:14px"></div><div class="t">Revisar agenda</div></div><div class="row" tabindex="0" role="button"><div class="ic" style="border-radius:50%"></div><div class="t">Escrever o plano</div></div></div></section>
+<div id="ft"></div>
+<section class="fin" id="baixar"><div class="mkbox"><svg viewBox="0 0 200 200"><circle class="rg" cx="100" cy="100" r="78" fill="none" stroke="#fff" stroke-width="16" transform="rotate(-90 100 100)"/><circle class="dt" cx="100" cy="100" r="24" fill="#fff"/></svg></div>
+<h2 class="hl rv" id="h2"></h2><p class="p">Baixe o lume e comece em dois minutos. Ou entre na lista e avisamos você.</p>
+<div class="cta"><a class="btn solid mag" href="#baixar">App Store</a><a class="btn mag" href="#baixar">Google Play</a></div>
+<div class="join"><input id="em" type="email" placeholder="seu@email.com" aria-label="Seu e-mail"><button class="btn" id="jn" type="button">Entrar na lista</button></div><div class="msg" id="ms" aria-live="polite"></div>
+<footer>© 2026 lume. Todos os direitos reservados.</footer></section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const split=(t,c='')=>t.split(' ').map(w=>`<span class="w ${c}"><i>${w}</i></span>`).join(' ');
+const hl=p=>split(p[0])+' '+split(p[1],'m');
+$('#h1').innerHTML=hl(['Clareza para','o seu dia.']);$('#h2').innerHTML=hl(['Comece agora.','Leva dois minutos.']);
+
+/* ===== conteúdo das 5 seções (troque aqui) ===== */
+const R=['Mensagens|12 novas','Agenda|3 eventos','Notas|Ideias do lançamento','Tarefas|5 para hoje','Arquivos|contrato.pdf','Lembretes|Reunião às 15h'];
+const F=[
+[['Tudo o que importa.','Num só lugar.'],'Mensagens, agenda, notas e arquivos juntos. Toque nas linhas para marcar como feito.',
+ `<div class="ttl">Hoje</div>`+R.map((r,i)=>{const [a,b]=r.split('|');return `<div class="row" tabindex="0" role="button"><div class="ic" style="border-radius:${i%2?'14px':'50%'}"></div><div class="t">${a}<small>${b}</small></div></div>`}).join('')],
+[['Menos ruído.','Mais foco.'],'Silencie o que distrai com um toque. Ligue o modo foco no botão ao lado.',
+ `<div class="tr"><div class="ttl">Agora</div><button class="sw" aria-pressed="false" aria-label="Modo foco"></button></div>`+['Promoção só hoje','Alguém curtiu sua foto','Atualização disponível','Você tem 12 mensagens'].map(t=>`<div class="nt">${t}</div>`).join('')+`<div class="fc"><svg viewBox="0 0 260 260" width="260" height="260"><circle cx="130" cy="130" r="112" fill="none" stroke="#2a2a2a" stroke-width="10"/><circle class="pr" cx="130" cy="130" r="112" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-dasharray="704" stroke-dashoffset="704" transform="rotate(-90 130 130)"/></svg><div class="tm">25:00<small>Foco</small></div></div>`],
+[['Ideias em equipe.','Em tempo real.'],'Veja quem está editando e onde. Passe o mouse sobre o documento para entrar.',
+ `<div class="ttl">Plano de lançamento</div>`+[100,86,94,60,92,74].map((w,i)=>`<div class="bar${i?' g':''}" style="width:${w}%"></div>`).join('')+`<div class="cur" style="left:70px;top:210px"><b></b><span>Ana</span></div><div class="cur r" style="left:240px;top:440px"><b></b><span>Rui</span></div><div class="cur you"><b></b><span>Você</span></div>`],
+[['Do rascunho ao pronto.','Num toque.'],'Publique sem sair do app. Toque em Publicar.',
+ `<div class="ttl st">Rascunho</div><div class="card">${[80,95,60,85].map(w=>`<div class="bar g" style="width:${w}%"></div>`).join('')}</div><div class="pb"><button class="pub"><span>Publicar</span><svg viewBox="0 0 60 60" width="60" height="60"><path class="ck" d="M14 31l11 11 21-24" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="64" stroke-dashoffset="64"/></svg></button></div>`],
+[['Feito para','o seu ritmo.'],'Entenda como você trabalha. Passe o mouse ou toque nas barras para ver cada dia.',
+ `<div class="ttl">Semana</div><div class="big">19h 18m<small>de foco esta semana</small></div><div class="ch">`+[1.2,2.1,1.6,3.6,2.7,5.1,3.0].map((h,i)=>`<div class="cl" tabindex="0"><div class="bc" style="height:${h*50}px"></div><span>${'STQQSSD'[i]}</span></div>`).join('')+`</div>`]
+];
+$('#ft').innerHTML=F.map((f,i)=>`<section class="ft${i%2?' r':''}"${i?'':' id="recursos"'}><div><h2 class="hl rv">${hl(f[0])}</h2><p class="p">${f[1]}</p></div><div class="phone">${f[2]}</div></section>`).join('');
+
+/* ===== reveal palavra por palavra ===== */
+gsap.set('.w i',{yPercent:112});
+$$('.rv').forEach(h=>ScrollTrigger.create({trigger:h,start:'top 88%',once:true,onEnter:()=>gsap.to($$('i',h),{yPercent:0,duration:.9,ease:'expo.out',stagger:.08})}));
+gsap.to('#prog',{scaleX:1,ease:'none',scrollTrigger:{scrub:.3,start:0,end:'max'}});
+
+/* ===== interações dos mockups ===== */
+document.addEventListener('click',e=>{const r=e.target.closest('.row');if(!r)return;r.classList.toggle('done');
+ const p=r.closest('.phone'),all=$$('.row',p),n=all.filter(x=>x.classList.contains('done')).length,c=$('.cnt',p);
+ if(c){c.firstChild.textContent=n+' de '+all.length;gsap.to($('.pr2',p),{strokeDashoffset:704*(1-n/all.length),duration:.6,ease:'power3.out'})}});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList&&(e.target.classList.contains('row')||e.target.classList.contains('cl'))){e.preventDefault();e.target.click()}});
+const P=$$('.ft:not(.hero) .phone');
+
+{const p=P[1],sw=$('.sw',p),nt=$$('.nt',p);gsap.set($('.fc',p),{scale:.7});
+ const tg=on=>{sw.setAttribute('aria-pressed',on);gsap.to(nt,{opacity:on?0:1,scale:on?.85:1,y:on?-24:0,duration:.4,stagger:.07});
+  gsap.to($('.fc',p),{opacity:on?1:0,scale:on?1:.7,duration:.6,ease:'back.out(1.6)'});gsap.to($('.pr',p),{strokeDashoffset:on?176:704,duration:1.2,ease:'power2.inOut'})};
+ sw.onclick=()=>tg(sw.getAttribute('aria-pressed')!=='true');
+ ScrollTrigger.create({trigger:p,start:'top 65%',once:true,onEnter:()=>setTimeout(()=>tg(true),900)})}
+
+{const p=P[2],[a,b,y]=$$('.cur',p);gsap.to([a,b],{opacity:1,duration:.4,delay:.4});
+ gsap.to(a,{x:200,y:140,duration:2,yoyo:true,repeat:-1,ease:'power2.inOut'});gsap.to(b,{x:-150,y:-170,duration:2.4,yoyo:true,repeat:-1,ease:'power2.inOut'});
+ p.addEventListener('pointermove',e=>{const r=p.getBoundingClientRect();gsap.to(y,{opacity:1,x:e.clientX-r.left,y:e.clientY-r.top,duration:.25,ease:'power2.out'})});
+ p.addEventListener('pointerleave',()=>gsap.to(y,{opacity:0,duration:.3}))}
+
+{const p=P[3],b=$('.pub',p),st=$('.st',p),bars=$$('.card .bar',p);let on=false;
+ b.onclick=()=>{on=!on;gsap.to(b,{width:on?96:300,duration:.4,ease:'power3.inOut'});gsap.to($('span',b),{opacity:on?0:1,duration:.2});
+  gsap.to($('.ck',b),{strokeDashoffset:on?0:64,duration:.4,delay:on?.3:0});gsap.to(bars,{backgroundColor:on?'#fff':'#3a3a3a',stagger:.06,duration:.3});st.textContent=on?'Publicado':'Rascunho'}}
+
+{const p=P[4],H=[1.2,2.1,1.6,3.6,2.7,5.1,3.0],D=['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],big=$('.big',p),sm=$('small',big),bc=$$('.bc',p);
+ const fm=h=>{const m=Math.round(h*60);return Math.floor(m/60)+'h '+m%60+'m'},tot=fm(H.reduce((a,b)=>a+b));
+ const set=i=>{bc.forEach((x,j)=>x.classList.toggle('on',j===i));big.firstChild.textContent=i<0?tot:fm(H[i]);sm.textContent=i<0?'de foco esta semana':'de foco · '+D[i]};
+ $$('.cl',p).forEach((c,i)=>{c.onpointerenter=()=>set(i);c.onclick=()=>set(i);c.onfocus=()=>set(i)});$('.ch',p).onpointerleave=()=>set(-1);
+ gsap.set(bc,{scaleY:0});ScrollTrigger.create({trigger:p,start:'top 70%',once:true,onEnter:()=>gsap.to(bc,{scaleY:1,duration:.9,ease:'expo.out',stagger:.09})})}
+
+/* ===== elementos formam o logo (scrub no scroll) ===== */
+{const box=$('.mkbox'),N=28,dots=[];gsap.set($('.rg',box),{opacity:0});gsap.set($('.dt',box),{scale:0,svgOrigin:'100 100'});
+ for(let k=0;k<N;k++){const d=document.createElement('div');d.className='dot';box.appendChild(d);
+  gsap.set(d,{x:(Math.random()-.5)*1400+100,y:(Math.random()-.5)*900+100,width:[18,44,18,66,28][k%5],height:[18,18,44,18,28][k%5],borderRadius:k%3?'6px':'50%',rotation:(Math.random()-.5)*80});dots.push(d)}
+ const t=gsap.timeline({scrollTrigger:{trigger:'.fin',start:'top 70%',end:'top 10%',scrub:1}});
+ dots.forEach((d,k)=>{const a=k/N*Math.PI*2-Math.PI/2;t.to(d,{x:100+78*Math.cos(a)-9,y:100+78*Math.sin(a)-9,width:18,height:18,borderRadius:'50%',rotation:0,ease:'power3.inOut',duration:1},k*.02)});
+ t.to($('.rg',box),{opacity:1,duration:.2}).to(dots,{opacity:0,duration:.2},'<').to($('.dt',box),{scale:1,duration:.3,ease:'back.out(2)'})}
+$('#jn').onclick=()=>{const v=$('#em').value.trim(),ok=/^\S+@\S+\.\S+$/.test(v);$('#ms').textContent=ok?'Pronto. Avisaremos você no lançamento.':'Digite um e-mail válido.';if(ok)$('#em').value=''};
+$('#em').addEventListener('keydown',e=>{if(e.key==='Enter')$('#jn').click()});
+
+/* ===== extras: cursor com echo, botões magnéticos, tilt, skew no scroll ===== */
+$$('.mag').forEach(b=>{b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();gsap.to(b,{x:(e.clientX-r.left-r.width/2)*.3,y:(e.clientY-r.top-r.height/2)*.4,duration:.4})});
+ b.addEventListener('pointerleave',()=>gsap.to(b,{x:0,y:0,duration:.6,ease:'elastic.out(1,.4)'}))});
+if(!RM){
+ if(matchMedia('(pointer:fine)').matches){const C=Array.from({length:6},(_,i)=>{const d=document.createElement('div');d.className='cr';document.body.appendChild(d);return d});gsap.set(C,{opacity:0});
+  addEventListener('pointermove',e=>C.forEach((d,i)=>gsap.to(d,{x:e.clientX,y:e.clientY,opacity:.6-i*.09,duration:.15+i*.09,ease:'power2.out',overwrite:true})))}
+ const hp=$('#hp');gsap.set(hp,{transformPerspective:1200});
+ addEventListener('pointermove',e=>gsap.to(hp,{rotationY:(e.clientX/innerWidth-.5)*18,rotationX:-(e.clientY/innerHeight-.5)*12,duration:.8,ease:'power3.out'}));
+ const px={s:0},set=gsap.quickSetter('.phone:not(#hp)','skewY','deg'),cl=gsap.utils.clamp(-6,6);
+ ScrollTrigger.create({onUpdate:s=>{const v=cl(s.getVelocity()/-300);if(Math.abs(v)>Math.abs(px.s)){px.s=v;gsap.to(px,{s:0,duration:.8,ease:'power3',overwrite:true,onUpdate:()=>set(px.s)})}}})}
+</script>
+</body>
+</html>
